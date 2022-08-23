@@ -326,4 +326,4 @@ jobs:
     - name: GitHub Release
       uses: ncipollo/release-action@v1
       with:
-        artifacts: ${{ inputs.dist_dir }}/*
+        artifacts: dist/*
