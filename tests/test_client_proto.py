@@ -134,3 +134,13 @@ async def test_eof_received(loop) -> None:
     assert proto._read_timeout_handle is not None
     proto.eof_received()
     assert proto._read_timeout_handle is None
+
+
+async def test_connection_proxied(loop) -> None:
+    proto = ResponseHandler(loop=loop)
+    headers = {"Foo": "Bar"}
+    raw_headers = (b"Foo", b"Bar")
+    proto.connection_proxied(headers, raw_headers)
+
+    assert proto._proxy_headers == headers
+    assert proto._raw_proxy_headers == raw_headers
