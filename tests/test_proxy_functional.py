@@ -918,21 +918,6 @@ async def xtest_proxy_from_env_https_with_auth(proxy_test_server, get_request, m
     assert r2.headers["Proxy-Authorization"] == auth.encode()
 
 
-@pytest.mark.xfail
-async def xtest_proxy_https_proxy_headers(proxy_test_server, loop) -> None:
-    sess = aiohttp.ClientSession()
-    proxy = await proxy_test_server()
-    proxy.return_value = {"status": 200, "body": b"1" * (2**20)}
-    url = "https://www.google.com.ua/search?q=aiohttp proxy"
-
-    resp = await sess.get(url, proxy=proxy.url)
-    await resp.release()
-    await sess.close()
-
-    assert resp.proxy_headers is not None
-    assert resp.raw_proxy_headers is not None
-
-
 async def test_proxy_auth() -> None:
     async with aiohttp.ClientSession() as session:
         with pytest.raises(
